@@ -1,13 +1,6 @@
 import Head from 'next/head'
-import { GetServerSideProps } from 'next'
 
-interface HomePageProps {
-  movieData: {
-  }
-}
-
-export default function Home({ movieData }: HomePageProps) {
-  console.log(movieData)
+export default function Home() {
   return (
     <div>
       <Head>
@@ -21,17 +14,4 @@ export default function Home({ movieData }: HomePageProps) {
       </main>
     </div>
   )
-}
-
-export const getServerSideProps: GetServerSideProps = async () => {
-  const res = await fetch(
-    'https://api.themoviedb.org/3/trending/movie/week?api_key=' + process.env.TMDB_KEY
-  )
-  const movieData = await res.json()
-
-  return {
-    props: {
-      movieData
-    }
-  }
 }
