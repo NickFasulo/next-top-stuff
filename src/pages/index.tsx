@@ -1,16 +1,22 @@
 import Head from 'next/head'
 import { GetServerSideProps } from 'next'
 import { useState, useEffect } from 'react'
+import { InferGetServerSidePropsType } from 'next'
 import MovieCard from '../components/MovieCard'
+import { Movie } from '../types/Movie.types'
 
-export default function Home({ movieData }: any) {
-  const [movies, setMovies] = useState<any[]>()
+export default function Home({
+  movieData
+}: InferGetServerSidePropsType<typeof getServerSideProps>) {
+  const [movies, setMovies] = useState(movieData)
 
   useEffect(() => {
     if (movieData) {
       setMovies(movieData)
     }
   }, [])
+
+  console.log(movieData)
 
   return (
     <div>
@@ -22,20 +28,18 @@ export default function Home({ movieData }: any) {
 
       <main>
         <h1>Top Stuff</h1>
-        {movies?.map(({ ...movieData }) => (
+        {movies.map(({ ...movieData }) => (
           <MovieCard
+            key={movieData.id + 1}
             backdrop_path={movieData.backdrop_path}
             genre_ids={movieData.genre_ids}
             id={movieData.id}
-            media_type={movieData.media_type}
             original_language={movieData.original_language}
             overview={movieData.overview}
             popularity={movieData.popularity}
             poster_path={movieData.poster_path}
-            release_date={movieData.release_date}
             title={movieData.title}
             vote_average={movieData.vote_average}
-            vote_count={movieData.vote_count}
           />
         ))}
       </main>
@@ -49,7 +53,7 @@ export const getServerSideProps: GetServerSideProps = async () => {
       process.env.TMDB_KEY
   )
   const data = await res.json()
-  const movieData = data.results
+  const movieData = data.results as Movie[]
 
   return {
     props: {
