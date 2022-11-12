@@ -8,15 +8,13 @@ import { Movie } from '../types/Movie.types'
 export default function Home({
   movieData
 }: InferGetServerSidePropsType<typeof getServerSideProps>) {
-  const [movies, setMovies] = useState(movieData)
+  const [movies, setMovies] = useState<Movie[]>(movieData)
 
   useEffect(() => {
     if (movieData) {
       setMovies(movieData)
     }
   }, [])
-
-  console.log(movieData)
 
   return (
     <div>
