@@ -4,6 +4,7 @@ import { useState, useEffect } from 'react'
 import { InferGetServerSidePropsType } from 'next'
 import MovieCard from '../components/MovieCard'
 import { Movie } from '../types/Movie.types'
+import { Container } from '@chakra-ui/react'
 
 export default function Home({
   movieData
@@ -24,8 +25,7 @@ export default function Home({
         <link rel='icon' href='/favicon.ico' />
       </Head>
 
-      <main>
-        <h1>Top Stuff</h1>
+      <Container display='flexWrap'>
         {movies.map(({ ...movieData }) => (
           <MovieCard
             key={movieData.id + 1}
@@ -40,7 +40,7 @@ export default function Home({
             vote_average={movieData.vote_average}
           />
         ))}
-      </main>
+      </Container>
     </div>
   )
 }
