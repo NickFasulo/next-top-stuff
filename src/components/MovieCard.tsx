@@ -14,7 +14,7 @@ export default function MovieCard({ ...movieData }) {
     >
       <Image
         src={`https://image.tmdb.org/t/p/original${movieData.poster_path}`}
-        fallbackSrc=''
+        fallbackSrc='fallback-1.jpg'
         alt='movie poster'
         objectFit='cover'
         borderRadius='1rem'
