@@ -4,7 +4,7 @@ import { useState, useEffect } from 'react'
 import { InferGetServerSidePropsType } from 'next'
 import MovieCard from '../components/MovieCard'
 import { Movie } from '../types/Movie.types'
-import { Container } from '@chakra-ui/react'
+import { Wrap, WrapItem } from '@chakra-ui/react'
 
 export default function Home({
   movieData
@@ -13,7 +13,7 @@ export default function Home({
 
   useEffect(() => {
     if (movieData) {
-      setMovies(movieData)
+      setMovies(movieData as Movie[])
     }
   }, [])
 
@@ -25,22 +25,24 @@ export default function Home({
         <link rel='icon' href='/favicon.ico' />
       </Head>
 
-      <Container display='flexWrap'>
+      <Wrap justify='center'>
         {movies.map(({ ...movieData }) => (
-          <MovieCard
-            key={movieData.id + 1}
-            backdrop_path={movieData.backdrop_path}
-            genre_ids={movieData.genre_ids}
-            id={movieData.id}
-            original_language={movieData.original_language}
-            overview={movieData.overview}
-            popularity={movieData.popularity}
-            poster_path={movieData.poster_path}
-            title={movieData.title}
-            vote_average={movieData.vote_average}
-          />
+          <WrapItem>
+            <MovieCard
+              key={movieData.id + 1}
+              backdrop_path={movieData.backdrop_path}
+              genre_ids={movieData.genre_ids}
+              id={movieData.id}
+              original_language={movieData.original_language}
+              overview={movieData.overview}
+              popularity={movieData.popularity}
+              poster_path={movieData.poster_path}
+              title={movieData.title}
+              vote_average={movieData.vote_average}
+            />
+          </WrapItem>
         ))}
-      </Container>
+      </Wrap>
     </div>
   )
 }
