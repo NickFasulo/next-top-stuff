@@ -1,56 +1,62 @@
 import Head from 'next/head'
 import { GetServerSideProps } from 'next'
-import { useState, useEffect } from 'react'
 import { InferGetServerSidePropsType } from 'next'
-import MovieCard from '../components/MovieCard'
+import { useState, useEffect } from 'react'
+import { Wrap, Box } from '@chakra-ui/react'
 import { Movie } from '../types/Movie.types'
-import { Wrap, WrapItem } from '@chakra-ui/react'
+import MovieCard from '../components/MovieCard'
+import CustomSpinner from '../components/CustomSpinner'
 
 export default function Home({
   movieData
 }: InferGetServerSidePropsType<typeof getServerSideProps>) {
   const [movies, setMovies] = useState<Movie[]>(movieData)
+  const [loading, setLoading] = useState<Boolean>(true)
 
   useEffect(() => {
     if (movieData) {
-      setMovies(movieData as Movie[])
+      setLoading(false)
+      setMovies(movieData)
     }
   }, [])
 
   return (
-    <div>
+    <>
       <Head>
         <title>Top Stuff</title>
         <meta name='description' content='Top Stuff' />
         <link rel='icon' href='/favicon.ico' />
       </Head>
 
-      <Wrap justify='center'>
-        {movies.map(({ ...movieData }) => (
-          <WrapItem>
-            <MovieCard
-              key={movieData.id + 1}
-              backdrop_path={movieData.backdrop_path}
-              genre_ids={movieData.genre_ids}
-              id={movieData.id}
-              original_language={movieData.original_language}
-              overview={movieData.overview}
-              popularity={movieData.popularity}
-              poster_path={movieData.poster_path}
-              title={movieData.title}
-              vote_average={movieData.vote_average}
-            />
-          </WrapItem>
-        ))}
-      </Wrap>
-    </div>
+      <Box height='100vh'>
+        <Wrap justify='center'>
+          {loading ? (
+            <CustomSpinner />
+          ) : (
+            movies.map(({ ...movieData }, i) => (
+              <MovieCard
+                key={i}
+                backdrop_path={movieData.backdrop_path}
+                genre_ids={movieData.genre_ids}
+                id={movieData.id}
+                original_language={movieData.original_language}
+                overview={movieData.overview}
+                popularity={movieData.popularity}
+                poster_path={movieData.poster_path}
+                title={movieData.title}
+                vote_average={movieData.vote_average}
+              />
+            ))
+          )}
+        </Wrap>
+      </Box>
+    </>
   )
 }
 
 export const getServerSideProps: GetServerSideProps = async () => {
   const res = await fetch(
-    'https://api.themoviedb.org/3/trending/movie/week?api_key=' +
-      process.env.TMDB_KEY
+    `https://api.themoviedb.org/3/trending/movie/week?api_key=${process.env.TMDB_KEY}`
   )
   const data = await res.json()
   const movieData = data.results as Movie[]
