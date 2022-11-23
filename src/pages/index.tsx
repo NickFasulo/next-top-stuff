@@ -59,7 +59,7 @@ export const getServerSideProps: GetServerSideProps = async () => {
     `https://api.themoviedb.org/3/trending/movie/week?api_key=${process.env.TMDB_KEY}`
   )
   const data = await res.json()
-  const movieData = data.results as Movie[]
+  const movieData = data.results
 
   return {
     props: {

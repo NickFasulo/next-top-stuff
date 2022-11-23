@@ -9,7 +9,7 @@ export default function MovieCard({ ...movieData }) {
         whileTap={{ scale: 0.95 }}
         margin='2rem'
         width='13rem'
-        height='19rem'
+        height='18rem'
         cursor='pointer'
         boxShadow='base'
         borderRadius='1rem'
@@ -17,7 +17,7 @@ export default function MovieCard({ ...movieData }) {
         <Image
           src={`https://image.tmdb.org/t/p/original${movieData.poster_path}`}
           fallbackSrc='fallback-1.jpg'
-          alt='movie poster'
+          alt={movieData.title}
           objectFit='cover'
           borderRadius='1rem'
         />
