@@ -1,4 +1,4 @@
-import { ChakraBox } from './ChakraBox'
+import { ChakraBox } from './chakraBox'
 import { Image, WrapItem } from '@chakra-ui/react'
 
 export default function MovieCard({ ...movieData }) {
@@ -9,10 +9,9 @@ export default function MovieCard({ ...movieData }) {
         whileTap={{ scale: 0.95 }}
         margin='2rem'
         width='13rem'
-        height='18rem'
         cursor='pointer'
-        boxShadow='base'
-        borderRadius='1rem'
+        boxShadow='dark-lg'
+        borderRadius='1.1rem'
       >
         <Image
           src={`https://image.tmdb.org/t/p/original${movieData.poster_path}`}
